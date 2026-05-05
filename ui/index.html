@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoL Avoid Tracker</title>
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Header ────────────────────────────────────────────── -->
+  <header>
+    <div class="header-left">
+      <img class="logo-img" src="logo.png" alt="" />
+      <span class="app-title">LoL Avoid Tracker</span>
+      <span class="platform-badge" id="platform-badge">NA1</span>
+    </div>
+    <div class="header-right">
+      <span class="header-meta" id="header-meta">0 / 20 players</span>
+      <button class="icon-btn" id="btn-settings" title="Settings">⚙</button>
+    </div>
+  </header>
+
+  <!-- ── Toolbar ────────────────────────────────────────────── -->
+  <div class="toolbar">
+    <button class="btn btn-primary" id="btn-add-player">+ Player</button>
+    <button class="btn btn-secondary" id="btn-add-team">+ Team</button>
+    <button class="btn btn-secondary" id="btn-refresh">↻ Refresh</button>
+    <button class="btn btn-danger" id="btn-remove">− Remove</button>
+    <div class="toolbar-spacer"></div>
+  </div>
+
+  <!-- ── Player list ─────────────────────────────────────────── -->
+  <main>
+    <div class="list-header">
+      <span class="col-name">Player / Team</span>
+      <span class="col-status">Status</span>
+      <span class="col-detail">Detail</span>
+      <span class="col-mode">Mode</span>
+      <span class="col-next">Next</span>
+    </div>
+    <div class="player-list" id="player-list">
+      <!-- Rendered by app.js -->
+    </div>
+    <div class="empty-state" id="empty-state" style="display:none">
+      <p>No players tracked yet.</p>
+      <p>Click <strong>+ Player</strong> to add someone.</p>
+    </div>
+  </main>
+
+  <!-- ── Footer ─────────────────────────────────────────────── -->
+  <footer>
+    <span id="footer-stats">—</span>
+  </footer>
+
+  <!-- ── Context menu ────────────────────────────────────────── -->
+  <div class="context-menu" id="context-menu">
+    <!-- Built dynamically by app.js -->
+  </div>
+
+  <!-- ── Drag ghost ──────────────────────────────────────────── -->
+  <div class="drag-ghost" id="drag-ghost"></div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       MODALS
+       ══════════════════════════════════════════════════════════ -->
+
+  <!-- Settings modal -->
+  <div class="modal-overlay" id="modal-settings">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <button class="modal-close" data-close="modal-settings">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="field-label">Riot API Key
+          <a class="field-hint" href="#" onclick="return false"
+             title="Get a free key at developer.riotgames.com">
+            developer.riotgames.com ↗
+          </a>
+        </label>
+        <input type="password" id="input-api-key" class="field-input"
+               placeholder="RGAPI-xxxxxxxx-…" autocomplete="off" />
+
+        <label class="field-label" style="margin-top:16px">Region / Platform</label>
+        <select id="input-platform" class="field-input"></select>
+
+        <p class="field-hint" style="margin-top:8px">
+          Dev keys expire every 24 h. Grab a new one from the Riot developer portal.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-settings">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-settings">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add player modal -->
+  <div class="modal-overlay" id="modal-add-player">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2 id="add-player-title">Add Player</h2>
+        <button class="modal-close" data-close="modal-add-player">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="field-label">Riot ID</label>
+        <input type="text" id="input-riot-id" class="field-input"
+               placeholder="PlayerName#TAG" autocomplete="off" />
+        <p class="field-hint">Format: <code>Name#TAG</code> — e.g. <code>Faker#KR1</code></p>
+        <input type="hidden" id="input-add-team" value="" />
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-add-player">Cancel</button>
+        <button class="btn btn-primary" id="btn-confirm-add-player">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add team modal -->
+  <div class="modal-overlay" id="modal-add-team">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2>New Team Folder</h2>
+        <button class="modal-close" data-close="modal-add-team">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="field-label">Team Name</label>
+        <input type="text" id="input-team-name" class="field-input"
+               placeholder="e.g. Team Alpha" autocomplete="off" />
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-add-team">Cancel</button>
+        <button class="btn btn-primary" id="btn-confirm-add-team">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rename modal (shared for players and teams) -->
+  <div class="modal-overlay" id="modal-rename">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2 id="rename-title">Rename</h2>
+        <button class="modal-close" data-close="modal-rename">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="field-label" id="rename-label">New name</label>
+        <input type="text" id="input-rename" class="field-input" autocomplete="off" />
+        <p class="field-hint" id="rename-hint" style="display:none">Format: <code>Name#TAG</code></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-rename">Cancel</button>
+        <button class="btn btn-primary" id="btn-confirm-rename">Rename</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm modal (generic) -->
+  <div class="modal-overlay" id="modal-confirm">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2 id="confirm-title">Confirm</h2>
+        <button class="modal-close" data-close="modal-confirm">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="confirm-message" id="confirm-message"></p>
+        <p class="field-hint" id="confirm-hint" style="display:none"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close="modal-confirm" id="btn-confirm-cancel">Cancel</button>
+        <button class="btn btn-danger" id="btn-confirm-ok">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
