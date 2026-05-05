@@ -32,47 +32,41 @@ A League of Legends companion tool that monitors the game activity of players yo
 
 ## Requirements
 
-- **Windows 10/11** (the pre-built `.exe` is Windows-only)
-- **Riot Games API key** — free from [developer.riotgames.com](https://developer.riotgames.com)
+- **Windows 10/11**
+- **Python 3.10+** — [python.org/downloads](https://www.python.org/downloads/)
+- **Riot Games API key** — you must register your own project at [developer.riotgames.com](https://developer.riotgames.com) and generate a key
 
-> Development keys expire every 24 hours. You'll need to refresh yours daily or apply for a personal/production key.
+> **Important:** Free development keys expire every 24 hours and must be manually renewed. For a permanent key, register a personal app at [developer.riotgames.com/app-type](https://developer.riotgames.com/app-type) — select **Personal App** for personal/non-commercial use. The app requires access to the **Spectator-V5** and **Match-V5** APIs.
+
+---
+
+## Getting a Riot API Key
+
+1. Go to [developer.riotgames.com](https://developer.riotgames.com) and sign in with your Riot account
+2. For quick testing: copy the **Development API Key** shown on the dashboard (expires every 24 hours)
+3. For permanent use: click **Register Product** → choose **Personal App** → fill out the form requesting access to Spectator-V5 and Match-V5
+4. Once approved, copy your key — you'll enter it in the app's Settings on first launch
 
 ---
 
 ## Installation
 
-### Option A — Pre-built Executable (Recommended)
-
-1. Download the latest release from the [Releases](../../releases) page
-2. Extract the zip and run `LoLAvoidTracker.exe`
-3. On first launch, click **Settings** and enter:
-   - Your Riot API key
-   - Your server region (NA1, EUW1, KR, etc.)
-4. Click **Add Player**, enter a Riot ID in `Name#TAG` format (e.g. `Faker#KR1`), and start tracking
-
----
-
-### Option B — Run from Source
-
-#### Prerequisites
-
-- [Python 3.10+](https://www.python.org/downloads/)
-- pip (included with Python)
+### Option A — Run from Source
 
 #### Steps
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/LoLAvoidTracker.git
-cd LoLAvoidTracker
+git clone https://github.com/CarsonTaylor99/LoL-Avoid-Tracker.git
+cd LoL-Avoid-Tracker
 
-# 2. (Optional but recommended) Create a virtual environment
+# 2. (Recommended) Create a virtual environment
 python -m venv venv
 
-# On Windows:
+# Activate on Windows:
 venv\Scripts\activate
 
-# On macOS/Linux:
+# Activate on macOS/Linux:
 source venv/bin/activate
 
 # 3. Install dependencies
@@ -82,11 +76,11 @@ pip install -r requirements.txt
 python app.py
 ```
 
-On first launch, the app will create a `dist/` folder with config and data files.
+On first launch, click **Settings** in the top right, enter your Riot API key and select your region, then click **Save**.
 
 ---
 
-### Option C — Build the Executable Yourself
+### Option B — Build the Executable Yourself
 
 ```bash
 # Install PyInstaller
@@ -96,7 +90,7 @@ pip install pyinstaller
 pyinstaller LoLAvoidTracker.spec
 ```
 
-The output `.exe` will be in `dist/LoLAvoidTracker.exe`.
+The output `.exe` will be in `dist/LoLAvoidTracker.exe`. Run it directly — no Python installation needed after building.
 
 ---
 
