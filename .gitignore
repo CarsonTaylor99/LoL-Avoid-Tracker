@@ -14,12 +14,16 @@ build/
 dist/LoLAvoidTracker.exe
 
 # User data (API keys, tracked players — keep these local)
+# Excluded from both root (source mode) and dist/ (exe mode)
+config.json
+players.json
+teams.json
+history.json
+champions.json
 dist/config.json
 dist/players.json
 dist/teams.json
 dist/history.json
-
-# Champions cache can be regenerated on launch
 dist/champions.json
 
 # IDE / OS
