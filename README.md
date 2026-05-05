@@ -22,11 +22,11 @@ A League of Legends companion tool that monitors the game activity of players yo
 
 | Status | Meaning |
 |---|---|
-| 🔴 **IN GAME** | Currently in a live match |
-| 🟠 **QUEUING LIKELY** | Finished <10–15 min ago, probably re-queuing |
-| 🟡 **RECENTLY DONE** | Finished within the last 25 minutes |
-| 🟢 **PLAYED THIS HOUR** | Played within the last hour |
-| ⚪ **SAFE** | No games in the last hour |
+| 🩷 **IN GAME** | Currently in a live match |
+| 🔴 **QUEUING LIKELY** | Finished <10–15 min ago, probably re-queuing |
+| 🟠 **RECENTLY DONE** | Finished within the last 25 minutes |
+| 🟡 **PLAYED THIS HOUR** | Played within the last hour |
+| 🟢 **SAFE** | No games in the last hour |
 
 ---
 
@@ -69,8 +69,8 @@ venv\Scripts\activate
 # Activate on macOS/Linux:
 source venv/bin/activate
 
-# 3. Install dependencies
-pip install -r requirements.txt
+# 3. Install the project and its dependencies
+pip install -e .
 
 # 4. Run the app
 python app.py
