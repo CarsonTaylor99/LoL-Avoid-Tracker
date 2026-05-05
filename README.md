@@ -76,7 +76,7 @@ pip install -r requirements.txt
 python app.py
 ```
 
-On first launch, click **Settings** in the top right, enter your Riot API key and select your region, then click **Save**.
+On first launch, click **Settings** in the top right, enter your Riot API key and select your region, then click **Save**. Data files (`config.json`, `players.json`, etc.) will be created in the project root directory.
 
 ---
 
@@ -96,7 +96,7 @@ The output `.exe` will be in `dist/LoLAvoidTracker.exe`. Run it directly — no 
 
 ## Configuration
 
-All data is stored in the `dist/` directory alongside the executable:
+The app stores its data files in the same directory as the executable (or the project root when running from source):
 
 | File | Purpose |
 |---|---|
@@ -106,7 +106,7 @@ All data is stored in the `dist/` directory alongside the executable:
 | `champions.json` | Champion ID → name cache (auto-fetched from Riot Data Dragon) |
 | `history.json` | Append-only match log per player |
 
-To change your API key or region at any time, click the **Settings** button in the top right of the app.
+These files are created automatically on first launch. To change your API key or region at any time, click the **Settings** button in the top right of the app.
 
 ---
 
